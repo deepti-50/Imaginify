@@ -7,26 +7,33 @@ interface MongooseConnection {
   promise: Promise<Mongoose> | null;
 }
 
-let cached: MongooseConnection = (global as any).mongoose
-
-if(!cached) {
-  cached = (global as any).mongoose = { 
-    conn: null, promise: null 
-  }
+// Using a global declaration to properly type the global object
+declare global {
+  var mongoose: MongooseConnection | undefined;
 }
 
-export const connectToDatabase = async () => {
-  if(cached.conn) return cached.conn;
+// Ensure that `cached` has a proper type
+let cached: MongooseConnection = global.mongoose || { conn: null, promise: null };
 
-  if(!MONGODB_URL) throw new Error('Missing MONGODB_URL');
+// If `global.mongoose` doesn't exist, initialize it
+if (!global.mongoose) {
+  global.mongoose = cached;
+}
 
-  cached.promise = 
-    cached.promise || 
-    mongoose.connect(MONGODB_URL, { 
-      dbName: 'imaginify', bufferCommands: false 
-    })
+export const connectToDatabase = async (): Promise<Mongoose> => {
+  if (cached.conn) return cached.conn;
+
+  if (!MONGODB_URL) {
+    throw new Error('Missing MONGODB_URL');
+  }
+
+  cached.promise =
+    cached.promise ||
+    mongoose.connect(MONGODB_URL, {
+      dbName: 'imaginify',
+      bufferCommands: false,
+    });
 
   cached.conn = await cached.promise;
-
   return cached.conn;
-}
+};
