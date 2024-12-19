@@ -2,8 +2,6 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 
-import { createUser, deleteUser, updateUser } from "@/lib/actions/user.actions";
-
 export async function POST(req: Request) {
   const SIGNING_SECRET = process.env.SIGNING_SECRET
 
@@ -54,44 +52,39 @@ export async function POST(req: Request) {
   // CREATE
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
-
-    const user = {
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        username: username || '', // Provide a default value if username is null
-        firstName: first_name || '', // Provide a default value if first_name is null
-        lastName: last_name || '', // Provide a default value if last_name is null
-        photo: image_url,
-      };
-
-    const newUser = await createUser(user);
-
-    return Response.json({ message: "OK", user: newUser });
+    console.log(
+        "Our User Details",
+        id,
+        email_addresses[0].email_address,
+        image_url,
+        last_name,
+        first_name,
+        username
+    );
+    // call server action to create user
   }
 
   // UPDATE
   if (eventType === "user.updated") {
     const { id, image_url, first_name, last_name, username } = evt.data;
-
-    const user = {
-      firstName: first_name || '',
-      lastName: last_name || '',
-      username: username || '',
-      photo: image_url,
-    };
-
-    const updatedUser = await updateUser(id, user);
-
-    return Response.json({ message: "OK", user: updatedUser });
+    console.log("Our updated user details",
+        id,
+        image_url,
+        first_name,
+        last_name,
+        username
+    );
+    // call server action to update user
   }
 
   // DELETE
   if (eventType === "user.deleted") {
     const { id } = evt.data;
-
-    const deletedUser = await deleteUser(id!);
-
-    return Response.json({ message: "OK", user: deletedUser });
+    console.log(
+        "Our deleted user details",
+        id,
+  );
+  // call server action to delete user
   }
 
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
