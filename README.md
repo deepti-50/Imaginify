@@ -1,8 +1,4 @@
-<div align="center">
-  <br />
-  <img src="./public/assets/images/app-landing-page.png" alt="Project Banner">
-  <br />
-
+# ![logo-text](https://github.com/sohomofficial/imaginify/assets/93909798/0fbe7ca7-676a-46b2-a25a-0aaa7cafff4d)
   <div>
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
     <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
