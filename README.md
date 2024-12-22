@@ -32,7 +32,7 @@ Build an AI image SaaS platform that excels in image processing capabilities, in
 - Clerk
 - Cloudinary
 - Razorpay
-- Shadcn
+- Shadcn UI
 - TailwindCSS
 
 ## <a name="features">🔋 Features</a>
