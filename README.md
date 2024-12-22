@@ -94,7 +94,7 @@ cd imaginify
 Install the project dependencies using yarn:
 
 ```bash
-yarn install
+npm install
 ```
 
 **Set Up Environment Variables**
